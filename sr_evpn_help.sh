@@ -1,4 +1,13 @@
 #!/bin/bash
+
+# Author:       Vasu Mahalingam
+# Email:        vasu.uky@gmail.com
+# Date:         2019-10-09
+# 
+# Quick and dirty help script for creating and 
+# cleaning sr evpn resources
+
+
 . ~/openstack-configs/openrc
 
 function get_sr_net_from_base_index()
