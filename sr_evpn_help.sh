@@ -1,12 +1,12 @@
 #!/bin/bash
 
+
 # Author:       Vasu Mahalingam
 # Email:        vasu.uky@gmail.com
 # Date:         2019-10-09
-# 
-# Quick and dirty help script for creating and 
+#
+# Quick and dirty help script for creating and
 # cleaning sr evpn resources
-
 
 . ~/openstack-configs/openrc
 
@@ -351,6 +351,8 @@ function add_server()
     local __flavor_name
     local __image_name
     local __server_id
+    local __flavor_id
+    local __image_id
 
     get_server_name_from_base_index __server_name $__base $__index
     get_sec_group_name_from_base_index __sec_group_name $__base $__index
@@ -358,11 +360,23 @@ function add_server()
     get_flavor_name __flavor_name
     get_image_name  __image_name
 
+
     create_sec_group $__base $__index
     create_srmpls_network $__base $__index
     get_server_id __server_id $__server_name
     get_sr_network_id __net_id $__net_name
+    get_flavor_id __flavor_id $__flavor_name
+    get_image_id __image_id $__image_name
 
+    if [[ -z $__flavor_id ]] ; then
+        create_flavor
+    fi
+
+    if [[ -z $__image_id ]] ; then
+        create_image cirros-0.3.5-x86_64-disk.img
+    fi
+
+    echo "Creating server"
     if [[ -z $__server_id ]] ; then
         echo "openstack server create --flavor $__flavor_name --image $__image_name --nic net-id=$__net_id "\
             "--security-group $__sec_group_name $__server_name" | bash -
