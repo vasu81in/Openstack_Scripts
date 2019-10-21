@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 # Author:       Vasu Mahalingam
 # Email:        vasu.uky@gmail.com
 # Date:         2019-10-09
@@ -460,5 +459,9 @@ help() {
   echo "   > help                                Display this help              "
   echo "-------------------------------------------------------------------------"
 }
+
+if [ $# -eq 0 ] ; then
+    help
+fi
 
 $*
